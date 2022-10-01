@@ -1,13 +1,14 @@
 package pages;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.WebDriverRunner.url;
@@ -30,15 +31,15 @@ public class MainPage {
 
     //Локатор раздела "Булки"
     @FindBy(how = How.XPATH, using = "//div[span[text()='Булки']]")
-    private SelenideElement bunTab;
+    public SelenideElement bunTab;
 
     //Локатор раздела "Соусы"
     @FindBy(how = How.XPATH, using = "//div[span[text()='Соусы']]")
-    private SelenideElement sauceTab;
+    public SelenideElement sauceTab;
 
     //Локатор раздела "Начинки"
     @FindBy(how = How.XPATH, using = "//*[text()='Начинки']")
-    private SelenideElement fillingsTab;
+    public SelenideElement fillingsTab; //private
 
     //Локатор класса после выбора раздела
     @FindBy(how = How.CLASS_NAME, using = "tab_tab_type_current__2BEPc")
@@ -85,6 +86,27 @@ public class MainPage {
     public boolean isSauceTabDisplayed() {
         return ingredientSection.getText().contentEquals("Соусы");
     }
+
+    public void checkSection(SelenideElement section) {
+        section.parent().shouldHave(cssClass("tab_tab_type_current__2BEPc")); //cssClass
+    }
+
+    @Step("Получение селектора вкладки Соусы в конструкторе")
+    public SelenideElement getSouceTab() {
+        return sauceTab;
+    }
+
+    @Step("Получение селектора вкладки Начинки в конструкторе")
+    public SelenideElement getFillingsTab() {
+        return fillingsTab;
+    }
+
+    @Step("Получение селектора вкладки Булки в конструкторе")
+    public SelenideElement getBunTab() {
+        return bunTab;
+    }
+
+
 
     @Step("Клик на раздел Начинки")
     public MainPage clickFillingsTab() {

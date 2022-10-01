@@ -1,5 +1,4 @@
 import api.UserClient;
-import dto.UserCreate;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import model.User;
@@ -25,17 +24,16 @@ public class UserLoginTest {
     private UserClient userClient;
     private User user;
     private String accessToken;
-    private String refreshToken;
 
     @Before
     public void setUp(){
         userClient = new UserClient();
-        user = UserCreate.getRandomUser();
+        user = User.getRandomUser();
         userClient.create(user);
 
         ValidatableResponse loginResponse = userClient.login(user);
         accessToken = loginResponse.log().all().extract().path("accessToken"); //.toString()
-        refreshToken = loginResponse.extract().path("refreshToken"); //.toString()
+
     }
 
     @After

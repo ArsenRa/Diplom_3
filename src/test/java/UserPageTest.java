@@ -1,5 +1,4 @@
 import api.UserClient;
-import dto.UserCreate;
 import model.User;
 import pages.*;
 
@@ -17,15 +16,22 @@ import static org.junit.Assert.assertTrue;
 
 public class UserPageTest {
 
+    private UserPage userPage;
+    private LoginPage loginPage;
+    private MainPage mainPage;
+    private UserClient userClient;
+    private User user;
+    private String accessToken;
+
     @Before
     public void setUp(){
         userClient = new UserClient();
-        user = UserCreate.getRandomUser();
+        user = User.getRandomUser();
         userClient.create(user);
 
         ValidatableResponse loginResponse = userClient.login(user);
         accessToken = loginResponse.log().all().extract().path("accessToken"); //.toString()
-        refreshToken = loginResponse.extract().path("refreshToken"); //.toString()
+
     }
 
     @After
@@ -36,18 +42,6 @@ public class UserPageTest {
             userClient.delete(accessToken);
         }
     }
-
-    private RegisterPage registerPage;
-    private UserPage userPage;
-    private LoginPage loginPage;
-    private MainPage mainPage;
-    private RestorePassPage restorePassPage;
-    private UserClient userClient;
-    private User user;
-    private String accessToken;
-    private String refreshToken;
-
-
 
     @Test
     @DisplayName("Переход по клику на «Личный кабинет» (авторизированный пользователь)")

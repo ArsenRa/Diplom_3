@@ -1,8 +1,9 @@
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import pages.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -15,7 +16,7 @@ public class ConstructorTest {
 
     @Before
     public void setUp() {
-        //Configuration.browser = "firefox"; // запуск тестов в FireFox
+
     }
 
     @After
@@ -30,7 +31,9 @@ public class ConstructorTest {
         mainPage.clickSauceTab();
         mainPage.clickFillingsTab();
         mainPage.clickBunsTab();
-        assertTrue(mainPage.isBunsTabDisplayed());
+        //assertTrue(mainPage.isBunsTabDisplayed());
+        Assert.assertEquals("Булки", mainPage.bunTab.getAttribute("textContent"));
+        //Assert.assertEquals("Булки", mainPage.getBunTab().$(By.cssSelector(".text")).getText());
     }
 
     @Test
@@ -38,14 +41,20 @@ public class ConstructorTest {
     public void sauceButtonOpenSauceTabTest() {
         mainPage = open(MainPage.URL_MAIN, MainPage.class);
         mainPage.clickSauceTab();
-        assertTrue(mainPage.isSauceTabDisplayed());
+        //mainPage.checkSection(mainPage.sauceTab);
+        //assertTrue(mainPage.isSauceTabDisplayed());
+        Assert.assertEquals("Соусы", mainPage.sauceTab.getAttribute("textContent"));
+        //Assert.assertEquals("Соусы", mainPage.getSouceTab().$(By.cssSelector(".text")).getText());
     }
 
     @Test
     @DisplayName("Переход к разделу Начинки")
     public void fillingsButtonOpenFillingsTabTest() {
         mainPage = open(MainPage.URL_MAIN, MainPage.class);
-        mainPage.clickFillingsTab();
-        assertTrue(mainPage.isFillingsTabDisplayed());
+        mainPage.clickFillingsTab(); //.shouldBe(visible, .Duration.ofSeconds(30)
+        //mainPage.checkSection(mainPage.fillingsTab);
+        //assertTrue(mainPage.isFillingsTabDisplayed());
+        Assert.assertEquals("Начинки", mainPage.fillingsTab.getAttribute("textContent"));
+        //Assert.assertEquals("Начинки", mainPage.getFillingsTab().getText());
     }
 }

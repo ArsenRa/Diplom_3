@@ -9,7 +9,6 @@ import static api.ApiClient.*;
 import static io.restassured.RestAssured.given;
 
 public class UserClient extends ApiClient{
-    public static String accessToken;
 
     @Step("Создание пользователя")
     public static ValidatableResponse create(User user){

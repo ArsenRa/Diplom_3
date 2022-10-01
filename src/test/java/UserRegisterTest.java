@@ -1,5 +1,4 @@
 import api.UserClient;
-import dto.UserCreate;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import model.User;
@@ -16,8 +15,6 @@ import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.junit.Assert.assertTrue;
 
-import static com.codeborne.selenide.Condition.visible;
-import static org.junit.Assert.assertTrue;
 
 public class UserRegisterTest {
     private RegisterPage registerPage;
@@ -25,12 +22,12 @@ public class UserRegisterTest {
     private UserClient userClient;
     private User user;
     private String accessToken;
-    private String refreshToken;
+
 
     @Before
     public void setUp(){
         userClient = new UserClient();
-        user = UserCreate.getRandomUser();
+        user = User.getRandomUser();
         //userClient.create(user);
 
         /*ValidatableResponse loginResponse = userClient.login(user);
@@ -44,6 +41,8 @@ public class UserRegisterTest {
     @After
     public void tearDown(){
         getWebDriver().quit();
+        ValidatableResponse loginResponse = userClient.login(user);
+        accessToken = loginResponse.log().all().extract().path("accessToken");
 
         if (accessToken != null) {
             userClient.delete(accessToken);
@@ -61,7 +60,7 @@ public class UserRegisterTest {
     @DisplayName("Регистрация пользователя с некорректным паролем")
     public void loginUserInvalidPassTest() {
         registerPage.fillInputsFieldsAndRegister(user.getName(), user.getEmail(), RandomStringUtils.randomAlphanumeric(5));
-        User credentials = new User(user.getEmail(), user.getPassword(), null);
+        User credentials = new User(user.getEmail(), user.getPassword(), null); //credentials
         //accessToken = userClient.login(credentials);
         registerPage.getInvalidPasswordErrorMessage().shouldBe(visible);
         registerPage.getInvalidPasswordErrorText().equals("Некорректный пароль");
