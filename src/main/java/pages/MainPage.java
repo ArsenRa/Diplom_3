@@ -30,24 +30,24 @@ public class MainPage {
     private SelenideElement assembleBurgerHeader;
 
     //Локатор раздела "Булки"
-    @FindBy(how = How.XPATH, using = "//div[span[text()='Булки']]")
-    public SelenideElement bunTab;
+    @FindBy(how = How.XPATH, using = "//span[text()='Булки']") // "//div[span[text()='Булки']]"
+    public static SelenideElement bunTab;
 
     //Локатор раздела "Соусы"
-    @FindBy(how = How.XPATH, using = "//div[span[text()='Соусы']]")
-    public SelenideElement sauceTab;
+    @FindBy(how = How.XPATH, using = "//div/span[text()='Соусы']") // "//div[span[text()='Соусы']]"
+    public static SelenideElement sauceTab;
 
     //Локатор раздела "Начинки"
-    @FindBy(how = How.XPATH, using = "//*[text()='Начинки']")
-    public SelenideElement fillingsTab; //private
+    @FindBy(how = How.XPATH, using = "//div/span[text()='Начинки']") // "//*[text()='Начинки']"
+    public static SelenideElement fillingsTab; //private
 
     //Локатор класса после выбора раздела
     @FindBy(how = How.CLASS_NAME, using = "tab_tab_type_current__2BEPc")
-    private SelenideElement ingredientSection;
+    public SelenideElement ingredientSection;
 
-    /*public void waitForLoadMainPage() {
-        assembleBurgerHeader.shouldBe(visible, Duration.ofSeconds(3));
-    }*/
+    public void waitForLoadMainPage() {
+        assembleBurgerHeader.shouldBe(visible, Duration.ofSeconds(6));
+    }
 
     @Step("Клик на кнопку Войти в аккаунт")
     public LoginPage clickLoginButton() {
@@ -88,7 +88,7 @@ public class MainPage {
     }
 
     public void checkSection(SelenideElement section) {
-        section.parent().shouldHave(cssClass("tab_tab_type_current__2BEPc")); //cssClass
+        section.parent().shouldHave(cssClass("tab_tab_type_current__2BEPc")).getText(); //cssClass
     }
 
     @Step("Получение селектора вкладки Соусы в конструкторе")
